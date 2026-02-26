@@ -2,6 +2,10 @@
 
 A premium full-stack task management application built with **Next.js 15**, **Express**, and **MongoDB**. Features a high-end "Glassmorphism" UI, secure authentication, and real-time task tracking.
 
+### 🔗 Live Links
+- **Frontend (Vercel)**: [https://task-board-delta-five.vercel.app](https://task-board-delta-five.vercel.app)
+- **Backend API (Render)**: [https://taskboard-server-ru97.onrender.com](https://taskboard-server-ru97.onrender.com)
+
 ## ✨ Features
 
 - **Premium UI/UX**: Modern glassmorphism design with Tailwind CSS v4, mesh backgrounds, and smooth animations.
@@ -24,6 +28,47 @@ A premium full-stack task management application built with **Next.js 15**, **Ex
 - **Database**: MongoDB (Mongoose)
 - **Validation**: Zod
 - **Security**: JWT, BcryptJS, CryptoJS, Cookie-Parser
+
+## 🏗️ System Architecture & Workflow
+
+```mermaid
+graph TD
+    subgraph Frontend [Next.js Client - Vercel]
+        UI[User Interface]
+        AuthGuard[Middleware Protection]
+        APIClient[Fetch API]
+    end
+
+    subgraph Backend [Node.js Server - Render]
+        Router[Express Routes]
+        AuthMid[Auth Middleware]
+        Controllers[Task & Auth Controllers]
+        Crypto[Data Encryption]
+    end
+
+    subgraph Database [MongoDB Atlas]
+        DB[(Task / User Documents)]
+    end
+
+    %% Workflow Connections
+    UI -->|1. User Login / Action| APIClient
+    APIClient -->|2. HTTP Request + Cookies| Router
+    Router -->|3. Verify JWT| AuthMid
+    AuthMid -->|4. Authenticated Request| Controllers
+    Controllers -->|5. Encrypt/Decrypt Data| Crypto
+    Crypto <-->|6. Read/Write| DB
+    Controllers -->|7. JSON Response| APIClient
+    APIClient -->|8. Update State| UI
+    
+    %% Styles
+    classDef frontend fill:#000,stroke:#333,stroke-width:2px,color:#fff;
+    classDef backend fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff;
+    classDef database fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff;
+    
+    class UI,AuthGuard,APIClient frontend;
+    class Router,AuthMid,Controllers,Crypto backend;
+    class DB database;
+```
 
 ## 🚀 Getting Started
 
